@@ -27,44 +27,6 @@ setwd("/home/andrew/Dropbox/dinesh/analysis/")
 
 # Running all comparisons
 for (i in 1:length(comparisons)){
-  comp_dir <- paste("./",i,sep="")
-  print(i)
-  system(paste("rm -r",i,sep=" "))
-  system(paste("mkdir",i,sep=" "))
-  setwd(comp_dir)
-  
-  # Writing out trimmed table with counts
-  write.csv(comparisons[[i]][[1]],"comparison_counts.csv")
-  
-  # Filtering out genes with no data mapping to them
-  genewise_sums <- apply(comparisons[[i]][[1]],1,sum)
-  sel <- which(genewise_sums > 6)
-  trimmed <- comparisons[[i]][[1]][sel,]
-  
-  # Running different analysis
-  #DeseqAnalysis(trimmed, comparisons[[i]][[2]],i)
-  #print("DEseq analysis successful...")
-  #try(EdgerAnalysis(trimmed, comparisons[[i]][[2]],i),silent=T)
-  #EdgerAnalysis(trimmed, comparisons[[i]][[2]],i)
-  #print("EdgeR analysis successful...")
-  #try(SamseqAnalysis(trimmed, comparisons[[i]][[2]],i),silent=T)
-  SamseqAnalysis(trimmed, comparisons[[i]][[2]],i)
-  print("SAMseq analysis successful...")
-  
-  # Doing simple analyses to get some p-values for Bernhard...
-  DeseqSimple(trimmed, comparisons[[i]][[2]],i)
-  EdgerSimple(trimmed, comparisons[[i]][[2]],i)
-  
-  # Memory management
-  rm(trimmed)
-  comparisons[[i]][[1]] <- c()
-  
-  setwd("../")  
-}
-
-
-# Running all comparisons
-for (i in 1:length(comparisons)){
   comp_dir <- paste("./",i,"_filt",sep="")
   print(i)
   print(comp_dir)
@@ -78,7 +40,7 @@ for (i in 1:length(comparisons)){
   # Filtering out genes with no data mapping to them
   genewise_sums <- apply(comparisons[[i]][[1]],1,sum)
   print('f')
-  sel <- which(genewise_sums > 400)
+  sel <- which(genewise_sums > 6)
   trimmed <- comparisons[[i]][[1]][sel,]
   
   # Running different analysis
